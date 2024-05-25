@@ -20,7 +20,7 @@ A Go library for interacting with Yandex Ynison.
 
 To use the sample, run the following command in your terminal:
 
->sample -t <token>
+>sample -t \<token\>
 
 
 ## Output
