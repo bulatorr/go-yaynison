@@ -33,7 +33,7 @@ type IConn interface {
 
 	IsConnected() bool
 
-	Listen(...string) error
+	Send(...string) error
 	Unlisten(...string) error
 
 	OnMessage(func(AudioMessage))
@@ -86,10 +86,10 @@ func (conn *Conn) IsConnected() bool {
 	return conn.isConnected
 }
 
-// Listen to a topic
+// Send to a topic
 //
 // This operation will block, giving the server up to 5 seconds to respond after correcting for latency before failing
-func (conn *Conn) Listen(topics ...string) error {
+func (conn *Conn) Send(topics ...string) error {
 	for _, message := range topics {
 		if err := conn.Write(websocket.TextMessage, []byte(message)); err != nil {
 			return err
@@ -146,12 +146,13 @@ func (conn *Conn) handleMessage(bytes []byte) {
 	if len(bytes) < 1 {
 		return
 	}
-	var msg1 AudioMessage
-	if err := json.Unmarshal(bytes, &msg1); err != nil {
+	// fmt.Println(strings.TrimSpace(string(bytes)))
+	var msg AudioMessage
+	if err := json.Unmarshal(bytes, &msg); err != nil {
 		fmt.Println(strings.TrimSpace(string(bytes)))
 		return
 	}
 	for _, f := range conn.onMessage {
-		go f(msg1)
+		go f(msg)
 	}
 }
