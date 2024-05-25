@@ -149,6 +149,7 @@ func (conn *Conn) handleMessage(bytes []byte) {
 	var msg1 AudioMessage
 	if err := json.Unmarshal(bytes, &msg1); err != nil {
 		fmt.Println(strings.TrimSpace(string(bytes)))
+		return
 	}
 	for _, f := range conn.onMessage {
 		go f(msg1)
