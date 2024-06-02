@@ -49,4 +49,17 @@ Played: 00:22:619 of 02:04:760
 
 2024/05/25 11:10:27 [OnDisconnect] disconnected from ynison
 
+## RemoveController
 
+Использование RemoveController:
+
+- -d string
+   deviceID
+- -f
+   Показать данные с сервера Ynison
+- -p
+   Изменить состояние игрока (если он не приостановлен, он остановит воспроизведение игрока, и наоборот)
+- -t string
+   Токен OAuth
+- -v float
+   Уровень громкости [0,1]

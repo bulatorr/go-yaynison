@@ -2,7 +2,7 @@ package ynison
 
 import (
 	"encoding/json"
-	"fmt"
+	"log"
 	"net/http"
 	"strings"
 	"sync"
@@ -20,7 +20,7 @@ type Conn struct {
 	isConnected bool
 	writer      sync.Mutex
 
-	onMessage    []func(AudioMessage)
+	onMessage    []func(PutYnisonStateResponse)
 	onTicket     []func(string, RedirectResponse)
 	onConnect    []func()
 	onDisconnect []func()
@@ -36,7 +36,7 @@ type IConn interface {
 	Send(...string) error
 	Unlisten(...string) error
 
-	OnMessage(func(AudioMessage))
+	OnMessage(func(PutYnisonStateResponse))
 	OnTicket(func(string, RedirectResponse))
 	OnConnect(func())
 	OnDisconnect(func())
@@ -98,6 +98,13 @@ func (conn *Conn) Send(topics ...string) error {
 	return nil
 }
 
+// Send to a topic bytes
+//
+// This operation will block, giving the server up to 5 seconds to respond after correcting for latency before failing
+func (conn *Conn) SendBytes(message []byte) error {
+	return conn.Write(websocket.TextMessage, message)
+}
+
 // Unlisten from the provided topics
 //
 // Not implemented
@@ -107,7 +114,7 @@ func (conn *Conn) Unlisten(topics ...string) error {
 }
 
 // OnMessage event called after a message is receieved
-func (conn *Conn) OnMessage(f func(AudioMessage)) {
+func (conn *Conn) OnMessage(f func(PutYnisonStateResponse)) {
 	conn.onMessage = append(conn.onMessage, f)
 }
 
@@ -146,10 +153,11 @@ func (conn *Conn) handleMessage(bytes []byte) {
 	if len(bytes) < 1 {
 		return
 	}
-	// fmt.Println(strings.TrimSpace(string(bytes)))
-	var msg AudioMessage
+	// log.Println(strings.TrimSpace(string(bytes)))
+	var msg PutYnisonStateResponse
 	if err := json.Unmarshal(bytes, &msg); err != nil {
-		fmt.Println(strings.TrimSpace(string(bytes)))
+		log.Println(strings.TrimSpace(string(bytes)))
+		log.Println(err.Error())
 		return
 	}
 	for _, f := range conn.onMessage {

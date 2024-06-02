@@ -24,16 +24,18 @@ func main() {
 	y := ynison.NewClient(token)
 	defer y.Close()
 
-	y.OnMessage(func(am ynison.AudioMessage) {
+	y.OnMessage(func(am ynison.PutYnisonStateResponse) {
 		fmt.Printf("\n\n[OnMessage]\n")
 
 		current, _ := time.ParseDuration(am.PlayerState.Status.ProgressMs + "ms")
 		total, _ := time.ParseDuration(am.PlayerState.Status.DurationMs + "ms")
 		fmt.Println("Rid:", am.Rid)
 		fmt.Println("Pause:", am.PlayerState.Status.Paused)
-		fmt.Println("Title:", am.PlayerState.PlayerQueue.PlayableList[am.PlayerState.PlayerQueue.CurrentPlayableIndex].Title)
-		fmt.Println("TrackID:", am.PlayerState.PlayerQueue.PlayableList[am.PlayerState.PlayerQueue.CurrentPlayableIndex].PlayableID)
-		fmt.Println("From:", am.PlayerState.PlayerQueue.PlayableList[am.PlayerState.PlayerQueue.CurrentPlayableIndex].From)
+		if len(am.PlayerState.PlayerQueue.PlayableList) > 0 {
+			fmt.Println("Title:", am.PlayerState.PlayerQueue.PlayableList[am.PlayerState.PlayerQueue.CurrentPlayableIndex].Title)
+			fmt.Println("TrackID:", am.PlayerState.PlayerQueue.PlayableList[am.PlayerState.PlayerQueue.CurrentPlayableIndex].PlayableID)
+			fmt.Println("From:", am.PlayerState.PlayerQueue.PlayableList[am.PlayerState.PlayerQueue.CurrentPlayableIndex].From)
+		}
 		fmt.Printf("Played: %s of %s\n", timePrettify(current), timePrettify(total))
 	})
 	y.OnConnect(func() {
