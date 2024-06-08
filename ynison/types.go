@@ -39,9 +39,7 @@ type PutYnisonStateResponse struct {
 						PlayableID   string `json:"playable_id,omitempty"`
 						PlayableType string `json:"playable_type,omitempty"`
 						Title        string `json:"title,omitempty"`
-						CoverURL     struct {
-							Value string `json:"value,omitempty"`
-						} `json:"cover_url,omitempty"`
+						CoverURL     string `json:"cover_url,omitempty"`
 					} `json:"recommended_playable_list,omitempty"`
 					LivePlayableIndex int `json:"live_playable_index,omitempty"`
 					EntityOptions     struct {
@@ -126,9 +124,7 @@ type PutYnisonStateResponse struct {
 				PlayableID   string `json:"playable_id,omitempty"`
 				PlayableType string `json:"playable_type,omitempty"`
 				Title        string `json:"title,omitempty"`
-				CoverURL     struct {
-					Value string `json:"value,omitempty"`
-				} `json:"cover_url,omitempty"`
+				CoverURL     string `json:"cover_url,omitempty"`
 			} `json:"playable,omitempty"`
 			Version struct {
 				DeviceID    string `json:"device_id,omitempty"`
@@ -205,14 +201,12 @@ type Status struct {
 	PlaybackSpeed int     `json:"playback_speed,omitempty"`
 	Version       Version `json:"version,omitempty"`
 }
-type CoverURL struct {
-	Value string `json:"value,omitempty"`
-}
+
 type RecommendedPlayableList struct {
-	PlayableID   string   `json:"playable_id,omitempty"`
-	PlayableType string   `json:"playable_type,omitempty"`
-	Title        string   `json:"title,omitempty"`
-	CoverURL     CoverURL `json:"cover_url,omitempty"`
+	PlayableID   string `json:"playable_id,omitempty"`
+	PlayableType string `json:"playable_type,omitempty"`
+	Title        string `json:"title,omitempty"`
+	CoverURL     string `json:"cover_url,omitempty"`
 }
 type WaveEntityOptional struct {
 	SessionID string `json:"session_id,omitempty"`
@@ -267,10 +261,10 @@ type Queue struct {
 	LocalTracksQueue LocalTracksQueue `json:"local_tracks_queue,omitempty"`
 }
 type PlayableList struct {
-	PlayableID   string   `json:"playable_id,omitempty"`
-	PlayableType string   `json:"playable_type,omitempty"`
-	Title        string   `json:"title,omitempty"`
-	CoverURL     CoverURL `json:"cover_url,omitempty"`
+	PlayableID   string `json:"playable_id,omitempty"`
+	PlayableType string `json:"playable_type,omitempty"`
+	Title        string `json:"title,omitempty"`
+	CoverURL     string `json:"cover_url,omitempty"`
 }
 type Options struct {
 	RepeatMode string `json:"repeat_mode,omitempty"`
@@ -313,10 +307,10 @@ type PlayingStatus struct {
 	Version       Version `json:"version,omitempty"`
 }
 type Playable struct {
-	PlayableID   string   `json:"playable_id,omitempty"`
-	PlayableType string   `json:"playable_type,omitempty"`
-	Title        string   `json:"title,omitempty"`
-	CoverURL     CoverURL `json:"cover_url,omitempty"`
+	PlayableID   string `json:"playable_id,omitempty"`
+	PlayableType string `json:"playable_type,omitempty"`
+	Title        string `json:"title,omitempty"`
+	CoverURL     string `json:"cover_url,omitempty"`
 }
 type PlayerQueueInjectOptional struct {
 	PlayingStatus PlayingStatus `json:"playing_status,omitempty"`
