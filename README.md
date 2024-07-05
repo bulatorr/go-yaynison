@@ -49,9 +49,9 @@ Played: 00:22:619 of 02:04:760
 
 2024/05/25 11:10:27 [OnDisconnect] disconnected from ynison
 
-## RemoveController
+## RemoteController
 
-Использование RemoveController:
+Использование RemoteController:
 
 - -d string
    deviceID
