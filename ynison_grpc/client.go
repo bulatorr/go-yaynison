@@ -136,6 +136,25 @@ func (y *Client) UpdatePlayingStatus(PlayingStatus *ynisonstate.PlayingStatus) {
 	y.conn.Send(r)
 }
 
+// Обновить состояние плеера.
+//
+// Отправляется в следующих случаях:
+//
+// * Старт новой очереди (плейлист, исполнитель, проч.).
+//
+// * Обновление очереди (добавление/удаление сущности из очереди).
+//
+// * Изменение режима повтора/шаффла.
+func (y *Client) UpdatePlayerState(PlayerState *ynisonstate.PlayerState) {
+	r := new(ynisonstate.PutYnisonStateRequest)
+	r.Parameters = &ynisonstate.PutYnisonStateRequest_UpdatePlayerState{
+		UpdatePlayerState: &ynisonstate.UpdatePlayerState{
+			PlayerState: PlayerState,
+		},
+	}
+	y.conn.Send(r)
+}
+
 // Обновить активное устройство.
 func (y *Client) UpdateActiveDevice(deviceID string) {
 	r := new(ynisonstate.PutYnisonStateRequest)
@@ -145,6 +164,11 @@ func (y *Client) UpdateActiveDevice(deviceID string) {
 		},
 	}
 	y.conn.Send(r)
+}
+
+// Метод для отправки сырых запросов
+func (y *Client) Send(data *ynisonstate.PutYnisonStateRequest) {
+	y.conn.Send(data)
 }
 
 // Close connection
