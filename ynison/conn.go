@@ -68,6 +68,9 @@ func (conn *Conn) Write(msgType int, data []byte) error {
 
 // Close the connection to server
 func (conn *Conn) Close() {
+	if !conn.isConnected {
+		return
+	}
 	conn.Write(websocket.CloseMessage, websocket.FormatCloseMessage(websocket.CloseNormalClosure, ""))
 	timer := time.NewTimer(time.Second)
 	defer timer.Stop()
