@@ -45,7 +45,10 @@ type IConn interface {
 var _ IConn = &Conn{}
 
 func (conn *Conn) Connect(Host string, Header http.Header) error {
-	socket, _, err := websocket.DefaultDialer.Dial(Host, Header)
+	socket, resp, err := websocket.DefaultDialer.Dial(Host, Header)
+	if resp != nil {
+		resp.Body.Close()
+	}
 	if err != nil {
 		return err
 	}
